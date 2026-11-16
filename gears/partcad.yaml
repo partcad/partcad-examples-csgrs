@@ -57,3 +57,10 @@ assemblies:
   pair:
     type: assy
     desc: The pinion meshing with a 24-tooth gear -- the plugin's ready-made 'spur_gear', set by its parameters.
+    parameters:
+      # How far the pinion is turned about its axis, in degrees. Half a tooth
+      # (15) puts its teeth in the gear's gaps; 'pair;turn=0.0' puts a tooth
+      # of each in the same place.
+      turn:
+        type: float
+        default: 15.0

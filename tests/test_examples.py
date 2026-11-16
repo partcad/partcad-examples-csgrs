@@ -116,35 +116,34 @@ def test_every_example_builds(ctx, package, kind, name):
         assert measured["volume"] > 0
 
 
-def _build123d(ctx, shape):
-    """The shape as a live build123d object, which only a caller with build123d can have."""
-    return asyncio.run(shape.convert("build123d", ctx))
-
-
-def _overlap(a, b):
-    """The volume two solids have in common; build123d says None for none."""
-    common = a & b
-    return 0.0 if common is None else common.volume
-
-
-GEAR = "//pub/feature/cad/csgrs:spur_gear;module=1.5,teeth=24,thickness=6.0,bore=6.0"
+def _overlaps(ctx, path):
+    """Which parts of the assembly share space: PartCAD's own check, run in its sandbox."""
+    assembly = ctx.get_assembly(path)
+    found = asyncio.run(assembly.get_interference_async(ctx))
+    assert found is not None, assembly.errors
+    # Both gears checked: a solid PartCAD could not ask about would be left out
+    # of 'overlaps' and named here instead.
+    assert found["parts"] == 2 and not found["unchecked"], found
+    return found["overlaps"]
 
 
 def test_the_gears_mesh(ctx):
-    b3d = pytest.importorskip("build123d", reason="the gears are put together here with build123d")
-
-    gear = _build123d(ctx, ctx.get_part(GEAR))
-    pinion = _build123d(ctx, ctx.get_part("//gears:pinion"))
-    # Where 'pair.assy' puts the pinion: 27 mm along X, turned half a tooth.
-    # There its teeth sit in the gear's gaps and the two overlap nowhere; not
-    # turned, a tooth of each would be in the same place.
-    assert _overlap(gear, b3d.Pos(27, 0, 0) * b3d.Rot(0, 0, 15) * pinion) < 0.01
-    assert _overlap(gear, b3d.Pos(27, 0, 0) * pinion) > 1
-    # And the assembly is that: the gear's tips on a 39 mm circle about the
-    # origin, the pinion's on a 21 mm one about (27, 0, 0), none along +X.
-    pair = _build123d(ctx, ctx.get_assembly("//gears:pair")).bounding_box(optimal=True)
-    assert pair.min.X == pytest.approx(-19.5, abs=1e-6)
-    assert 27 + 10.5 * math.cos(math.radians(15)) < pair.max.X < 27 + 10.5
+    # The gear's tips on a 39 mm circle, the pinion's on a 21 mm one, each with
+    # a tooth along +X as it is made.
+    gear = _measured(ctx, "part", "//pub/feature/cad/csgrs:spur_gear;module=1.5,teeth=24,thickness=6.0,bore=6.0")
+    pinion = _measured(ctx, "part", "//gears:pinion")
+    assert gear["bbox"][3] == pytest.approx(19.5) and pinion["bbox"][3] == pytest.approx(10.5)
+    # 'pair.assy' puts the pinion 27 mm along X -- closer than 19.5 + 10.5, so
+    # the tip circles cross -- turned half a tooth: the box around the gear's
+    # box and the pinion's box turned 15 degrees there.
+    bbox = _measured(ctx, "assembly", "//gears:pair")["bbox"]
+    turned = 10.5 * (math.cos(math.radians(15)) + math.sin(math.radians(15)))
+    assert bbox[0] == pytest.approx(-19.5) and bbox[3] == pytest.approx(27 + turned)
+    # There the teeth of each sit in the gaps of the other, and nothing overlaps;
+    # not turned, a tooth of each is in the same place.
+    assert _overlaps(ctx, "//gears:pair") == []
+    clash = _overlaps(ctx, "//gears:pair;turn=0.0")
+    assert len(clash) == 1 and clash[0]["volume"] > 1, clash
 
 
 def test_a_parameter_sets_the_example(ctx):

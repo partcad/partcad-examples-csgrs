@@ -37,7 +37,8 @@ meshing with the plugin's ready-made `spur_gear`, set by its parameters in the a
 (`//pub/feature/cad/csgrs:spur_gear;module=1.5,teeth=24,...`). Two gears of one module mesh at the sum of their
 pitch radii — 1.5 × (24 + 12) / 2 = 27 mm — with the pinion turned half a tooth.
 
-`wheel` declares its tooth count as a parameter, so `//gears:wheel;teeth=36` is the same gear with 36 teeth.
+`wheel` declares its tooth count as a parameter, so `//gears:wheel;teeth=36` is the same gear with 36 teeth, and
+`pair` declares the pinion's turn: `//gears:pair;turn=0.0` puts a tooth of each in the same place.
 
 <table><tr>
 <td><img src="images/gears-pair.png" alt="Two spur gears meshing" width="280"></td>
@@ -163,7 +164,7 @@ measures the ones whose size says whether they came out right; [CI](.github/work
 PartCAD's development branch on Ubuntu, where Docker builds the `container` examples too.
 
 ```shell
-pip install pytest pyyaml "build123d==0.11.1" "cadquery-ocp-proxy>=7.9,<8.0" "partcad>=0.10.25"
+pip install pytest pyyaml "partcad>=0.10.25"
 pytest
 ```
 
