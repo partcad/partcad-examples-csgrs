@@ -163,7 +163,7 @@ measures the ones whose size says whether they came out right; [CI](.github/work
 PartCAD's development branch on Ubuntu, where Docker builds the `container` examples too.
 
 ```shell
-pip install pytest pyyaml build123d "partcad>=0.10.25"
+pip install pytest pyyaml "build123d==0.11.1" "cadquery-ocp-proxy>=7.9,<8.0" "partcad>=0.10.25"
 pytest
 ```
 
