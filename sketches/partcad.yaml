@@ -1,0 +1,83 @@
+# Sketches, from every sketch type of the plugin: the region a part type would
+# extrude, in the XY plane, with the curves csgrs kept -- lines, arcs, Bezier
+# curves -- rather than a polygon. And parts made of them by PartCAD's own
+# 'extrude', which is the point of a sketch: csgrs draws, PartCAD builds.
+desc: A sketch of every csgrs sketch type, the ready-made sketches, and parts extruded from them.
+
+sketches:
+  wheel:
+    type: //pub/feature/cad/csgrs:gear_profile
+    desc: The tooth profile of a 20-tooth involute gear of module 2, with a 6 mm bore.
+    module: 2
+    teeth: 20
+    bore: 6
+
+  rack:
+    type: //pub/feature/cad/csgrs:rack_profile
+    desc: The tooth profile of a cycloidal rack.
+    profile: cycloidal
+    module: 2
+    teeth: 6
+
+  section:
+    type: //pub/feature/cad/csgrs:airfoil_profile
+    desc: A NACA 2412 section of 60 mm chord.
+    naca: "2412"
+    chord: 60
+
+  signature:
+    type: //pub/feature/cad/csgrs:text_profile
+    desc: '"PartCAD" in Hershey Script, as the outline of its strokes.'
+    text: PartCAD
+    font: scripts
+    size: 10
+
+  lettering:
+    type: //pub/feature/cad/csgrs:truetype_profile
+    desc: '"Bezier" in Bungee: the glyphs as the font draws them, quadratic Bezier curves and all.'
+    text: Bezier
+    size: 10
+    path: Bungee-Regular.ttf
+    fileFrom: url
+    fileUrl: https://raw.githubusercontent.com/google/fonts/cc39c4c2c304bc368c9b7c311ea2bcc6013299fe/ofl/bungee/Bungee-Regular.ttf
+    fileHash: sha256:c4f5361ce120af3e6b9156d0bf379fa19cda2ea0cd18ac01fd99596c6bf66e3f
+
+  traced:
+    type: //pub/feature/cad/csgrs:image_profile
+    desc: The badge from '../raster', traced.
+    path: ../raster/badge.png
+    pixel_size: 0.2
+
+  plate:
+    type: //pub/feature/cad/csgrs:csg_profile
+    desc: A rounded plate with a hole in each corner and a slot, whose size is a parameter (reads plate.csgrs).
+    parameters:
+      width:
+        type: float
+        default: 60.0
+
+  # The plugin's ready-made sketches, set from here.
+  outline:
+    type: alias
+    desc: The ready-made 'gear_outline', 30 teeth.
+    source: //pub/feature/cad/csgrs:gear_outline;teeth=30
+
+parts:
+  # PartCAD's 'extrude', of csgrs's sketches.
+  gear_plate:
+    type: extrude
+    desc: The 'wheel' sketch, extruded 4 mm.
+    sketch: wheel
+    depth: 4
+
+  mounting_plate:
+    type: extrude
+    desc: The 'plate' sketch, extruded 3 mm.
+    sketch: plate
+    depth: 3
+
+  wing_stub:
+    type: extrude
+    desc: The 'section' sketch, extruded 40 mm.
+    sketch: section
+    depth: 40

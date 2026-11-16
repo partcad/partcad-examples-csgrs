@@ -1,0 +1,26 @@
+# A printed circuit board checked by hyperdrc, the plugin's 'qual:' test:
+# 'pc qual test --other' (or the Qualification -> Other tab of the PartCAD
+# extension) runs it, every error fails the board, every warning is reported,
+# and the whole of hyperdrc's report is the test's table.
+desc: A KiCad board, checked for design readiness by hyperdrc.
+
+parts:
+  board:
+    type: kicad
+    desc: A 40 x 25 mm two-layer board, one resistor with a via each side ('board.kicad_pcb').
+    # A 'kicad' part is a board in progress until it says otherwise, and
+    # 'pc qual test' leaves one in progress alone.
+    finalized: true
+    qual:
+      other:
+        drc:
+          path: //pub/feature/cad/csgrs:hyperdrc
+          desc: Design readiness as hyperdrc checks it -- fails on an error, reports every warning.
+        drc_strict:
+          path: //pub/feature/cad/csgrs:hyperdrc
+          desc: >-
+            The same, failing on a warning too, less the checks this board
+            deliberately leaves to the assembly house (fiducials, tooling holes,
+            test points) and the tolerances it accepts.
+          strict: true
+          ignore: fiducial-readiness,tooling-hole-readiness,testpoint-coverage-readiness,layer-registration-tolerance,annular-ring-tolerance

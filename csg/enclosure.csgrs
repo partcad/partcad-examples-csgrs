@@ -1,0 +1,20 @@
+# An open box with a lip for a lid and ventilation slots in one side.
+difference:
+  - union:
+      - cuboid: [60, 40, 25]
+      - cuboid: [56, 36, 2]
+        translate: [2, 2, 25]
+  # The inside, open at the top.
+  - cuboid: [56, 36, 30]
+    translate: [2, 2, 2]
+  # Five slots through the +Y wall.
+  - cuboid: [3, 6, 12]
+    translate: [15, 36, 8]
+  - cuboid: [3, 6, 12]
+    translate: [22, 36, 8]
+  - cuboid: [3, 6, 12]
+    translate: [29, 36, 8]
+  - cuboid: [3, 6, 12]
+    translate: [36, 36, 8]
+  - cuboid: [3, 6, 12]
+    translate: [43, 36, 8]

@@ -1,0 +1,38 @@
+# Triply periodic minimal surface lattices, from the 'tpms' part type and the
+# ready-made 'gyroid', 'schwarz_p' and 'schwarz_d' parts: light, stiff in every
+# direction, and printable without supports.
+desc: Gyroid, Schwarz P and Schwarz D lattice blocks.
+
+parts:
+  gyroid:
+    type: //pub/feature/cad/csgrs:tpms
+    desc: A 30 x 30 x 15 mm gyroid block of 10 mm cells with 1 mm walls.
+    surface: gyroid
+    size_x: 30
+    size_y: 30
+    size_z: 15
+    period: 10
+    thickness: 1
+    resolution: 24
+
+  schwarz_p:
+    type: //pub/feature/cad/csgrs:tpms
+    desc: A 20 mm cube of Schwarz P lattice, 10 mm cells.
+    surface: schwarz_p
+    size_x: 20
+    size_y: 20
+    size_z: 20
+    period: 10
+    thickness: 1.2
+    resolution: 24
+
+  schwarz_d:
+    type: //pub/feature/cad/csgrs:tpms
+    desc: A 20 mm cube of Schwarz D (diamond) lattice, 10 mm cells.
+    surface: schwarz_d
+    size_x: 20
+    size_y: 20
+    size_z: 20
+    period: 10
+    thickness: 1
+    resolution: 24

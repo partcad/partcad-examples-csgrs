@@ -1,0 +1,21 @@
+# A knurled knob: a star extruded with a twist, a D-shaped hole for a shaft
+# with a flat, and a pointer standing on top.
+difference:
+  - union:
+      - extrude:
+          height: 12
+          twist: 15
+          slices: 12
+          profile:
+            star: {points: 24, outer: "${diameter / 2}", inner: "${diameter / 2 - 1.2}"}
+      - cuboid: [2, "${diameter / 2 - 4}", 1]
+        translate: [-1, 2, 12]
+  # A 6 mm shaft with a flat 0.5 mm deep.
+  - extrude:
+      height: 9
+      profile:
+        intersection:
+          - circle: {r: 3.1, segments: 48}
+          - square: 6.2
+            translate: [-3.1, -3.6]
+    translate: [0, 0, -1]

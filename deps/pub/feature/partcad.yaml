@@ -1,0 +1,6 @@
+desc: Plugins that add features to PartCAD (here, only the one these examples use).
+
+dependencies:
+  cad:
+    type: local
+    path: cad

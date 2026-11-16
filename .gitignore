@@ -1,0 +1,9 @@
+# What PartCAD and Python leave behind in a package they have worked in, and
+# the files the examples download on first use (a font, two KiCad models).
+.partcad
+__pycache__
+*.pyc
+.pytest_cache
+text/Bungee-Regular.ttf
+sketches/Bungee-Regular.ttf
+models/*.wrl

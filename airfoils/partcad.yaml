@@ -1,0 +1,19 @@
+# NACA four-digit wing sections, from the 'airfoil' part type. The digits are
+# the camber (percent of the chord), where it is (tenths of the chord) and the
+# thickness (percent of the chord): 0012 is symmetric and 12% thick.
+desc: Straight wings of NACA 0012 and 4412 sections.
+
+parts:
+  naca0012:
+    type: //pub/feature/cad/csgrs:airfoil
+    desc: A symmetric NACA 0012 wing, 80 mm chord, 160 mm span.
+    naca: "0012"
+    chord: 80
+    span: 160
+
+  naca4412:
+    type: //pub/feature/cad/csgrs:airfoil
+    desc: A cambered NACA 4412 wing, 80 mm chord, 160 mm span.
+    naca: "4412"
+    chord: 80
+    span: 160

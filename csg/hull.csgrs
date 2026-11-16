@@ -1,0 +1,5 @@
+# A rounded wedge: the convex hull of a block and a small cube set apart from it.
+hull:
+  - cuboid: [30, 20, 4]
+  - cube: 4
+    translate: [13, 8, 20]

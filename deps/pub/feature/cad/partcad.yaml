@@ -1,0 +1,10 @@
+desc: Plugins that read, build and open CAD (here, only csgrs).
+
+dependencies:
+  # The plugin at the tip of its main branch: what the index pins moves with
+  # the index, and these examples are what finds out first when the plugin
+  # changes in a way they did not expect.
+  csgrs:
+    type: git
+    url: https://github.com/partcad/partcad-csgrs
+    revision: main

@@ -1,0 +1,15 @@
+# A twisted sleeve: a hexagonal ring -- a hexagon offset outwards, less the
+# same hexagon -- extruded 60 mm while it turns 45 degrees and narrows to 70%.
+extrude:
+  height: 60
+  twist: 45
+  scale: [0.7, 0.7]
+  slices: 12
+  profile:
+    difference:
+      - offset:
+          distance: 3
+          corner: miter
+          profile:
+            ngon: {sides: 6, r: 20}
+      - ngon: {sides: 6, r: 20}

@@ -1,0 +1,14 @@
+# A rounded plate with a hole in each corner and a slot down the middle: a
+# 'csg_profile' sketch's tree, whose root is a profile.
+difference:
+  - rounded_rectangle: {width: "${width}", height: 40, r: 6, segments: 12}
+  - circle: {r: 2.5, segments: 32}
+    translate: [6, 6]
+  - circle: {r: 2.5, segments: 32}
+    translate: ["${width - 6}", 6]
+  - circle: {r: 2.5, segments: 32}
+    translate: [6, 34]
+  - circle: {r: 2.5, segments: 32}
+    translate: ["${width - 6}", 34]
+  - rounded_rectangle: {width: "${width - 30}", height: 8, r: 4, segments: 12}
+    translate: [15, 16]

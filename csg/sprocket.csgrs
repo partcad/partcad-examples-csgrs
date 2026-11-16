@@ -1,0 +1,15 @@
+# A gear blank: a gear's tooth profile with a hub hole and three lightening
+# holes cut from it -- all as profiles, so the cutting is done in the plane,
+# where it is cheap -- extruded once at the end.
+extrude:
+  height: 3
+  profile:
+    difference:
+      - gear_profile: {module: 2, teeth: 20}
+      - circle: {r: 3, segments: 24}
+      - circle: {r: 3.5, segments: 16}
+        translate: [11, 0]
+      - circle: {r: 3.5, segments: 16}
+        translate: [-5.5, 9.526]
+      - circle: {r: 3.5, segments: 16}
+        translate: [-5.5, -9.526]

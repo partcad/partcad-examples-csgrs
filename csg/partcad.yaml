@@ -1,0 +1,56 @@
+# Constructive solid geometry trees, from the 'csg' part type: each part reads
+# '<name>.csgrs', a tree of shapes in YAML, and '${...}' in it is worked out
+# over the part's parameters. See the plugin's README for every shape a tree
+# may hold.
+desc: CSG trees -- a bracket, a knob, an enclosure, a turned spacer, a gear blank, a rounded block, a twisted sleeve, a bent pipe and a hull.
+
+parts:
+  bracket:
+    type: //pub/feature/cad/csgrs:csg
+    desc: An angle bracket whose size and holes are parameters ('bracket;width=60.0').
+    parameters:
+      width:
+        type: float
+        default: 40.0
+      height:
+        type: float
+        default: 30.0
+      hole:
+        type: float
+        default: 5.0
+
+  knob:
+    type: //pub/feature/cad/csgrs:csg
+    desc: A knurled knob -- a star of 24 points extruded and twisted -- with a D-shaped shaft hole and a raised pointer.
+    parameters:
+      diameter:
+        type: float
+        default: 30.0
+
+  enclosure:
+    type: //pub/feature/cad/csgrs:csg
+    desc: An open box with 2 mm walls, a lip for its lid and ventilation slots.
+
+  spacer:
+    type: //pub/feature/cad/csgrs:csg
+    desc: A turned spacer -- a flanged sleeve, its profile revolved about the axis.
+
+  sprocket:
+    type: //pub/feature/cad/csgrs:csg
+    desc: A gear blank -- a gear's tooth profile with a hub hole and three lightening holes, cut in the plane and extruded.
+
+  rounded:
+    type: //pub/feature/cad/csgrs:csg
+    desc: A block with every edge rounded, as the Minkowski sum of a smaller block and a sphere.
+
+  vase:
+    type: //pub/feature/cad/csgrs:csg
+    desc: A twisted sleeve -- a hexagonal ring, the hexagon offset outwards less the hexagon, extruded with a twist and a taper.
+
+  pipe:
+    type: //pub/feature/cad/csgrs:csg
+    desc: A pipe -- a ring profile swept along a path with two right-angle bends.
+
+  hull:
+    type: //pub/feature/cad/csgrs:csg
+    desc: A wedge -- the convex hull of a block and a small cube above one corner of it.

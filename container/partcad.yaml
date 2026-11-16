@@ -1,0 +1,49 @@
+# The plugin's types, run in its image: every part and sketch type has a twin
+# named '<type>_in_container' that PartCAD runs in the plugin's container image
+# as it is ('container:'), instead of in a Python sandbox -- nothing installed
+# on this machine, and one known environment for every part, whatever the
+# machine. What it needs is a container runtime (Docker): without one these
+# fail, saying so, where the plain types fall back.
+desc: The csgrs types run in the plugin's container image -- a gear, a lattice, a CSG part, and a sketch extruded.
+
+parts:
+  pinion:
+    type: //pub/feature/cad/csgrs:gear_in_container
+    desc: A 12-tooth spur gear of module 1.5, built in the plugin's image.
+    module: 1.5
+    teeth: 12
+    thickness: 6
+    bore: 4
+
+  lattice:
+    type: //pub/feature/cad/csgrs:tpms_in_container
+    desc: A 20 mm gyroid cube, built in the plugin's image.
+    surface: gyroid
+    size_x: 20
+    size_y: 20
+    size_z: 20
+    period: 10
+    thickness: 1
+    resolution: 24
+
+  block:
+    type: //pub/feature/cad/csgrs:csg_in_container
+    desc: A CSG tree (block.csgrs), read and built in the plugin's image.
+    parameters:
+      size:
+        type: float
+        default: 20.0
+
+  gear_plate:
+    type: extrude
+    desc: The 'outline' sketch, built in the plugin's image and extruded by PartCAD.
+    sketch: outline
+    depth: 4
+
+sketches:
+  outline:
+    type: //pub/feature/cad/csgrs:gear_profile_in_container
+    desc: The tooth profile of a 16-tooth gear, built in the plugin's image.
+    module: 2
+    teeth: 16
+    bore: 5

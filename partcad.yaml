@@ -1,0 +1,31 @@
+# PartCAD package: worked examples of the csgrs plugin, //pub/feature/cad/csgrs
+# (https://github.com/partcad/partcad-csgrs) -- every part type, every sketch
+# type, the ready-made parametric parts and sketches, the PCB check, and the
+# types that run in the plugin's own image.
+#
+# Each topic is a package of its own, in the directory named after it; this one
+# holds only what they share. See README.md for what each of them shows.
+name: //pub/examples/script/csgrs
+
+desc: Examples of the csgrs plugin -- gears, lattices, airfoils, text, traced images, VRML models, CSG trees, sketches, PCB checks and containers.
+url: https://github.com/partcad/partcad-csgrs
+
+# The first PartCAD with sketchTypes (partcad/partcad#963), which half of these
+# examples are made of, and with `container:` for part and sketch types
+# (partcad/partcad#964), which the ones in 'container' use.
+partcad: ">=0.10.25"
+
+# Nothing here is a catalogue item somebody orders: these are examples of what
+# the plugin builds.
+manufacturable: false
+
+dependencies:
+  pub:
+    # Loaded as '//pub' when this package is the root, and not at all when the
+    # index itself imports this package -- where '//pub' is the index, which
+    # has the plugin at the same path. So '//pub/feature/cad/csgrs:gear'
+    # means the same thing in a checkout of this repository and in the index.
+    # See deps/pub/partcad.yaml.
+    onlyInRoot: true
+    type: local
+    path: deps/pub

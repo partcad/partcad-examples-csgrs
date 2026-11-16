@@ -1,0 +1,13 @@
+# '//pub' as this package sees it when it is the root -- what 'pc' run in this
+# checkout, and its CI, resolve '//pub/feature/cad/csgrs' against.
+#
+# Not the whole PartCAD index: only the one branch of it these examples use,
+# the csgrs plugin, at the path the index gives it. When the index imports this
+# package it does so as '//pub/examples/script/csgrs', and this is not used at
+# all: the dependency that names it is 'onlyInRoot'.
+desc: The branch of the PartCAD index the csgrs examples are built from.
+
+dependencies:
+  feature:
+    type: local
+    path: feature

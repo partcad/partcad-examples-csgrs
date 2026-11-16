@@ -1,0 +1,48 @@
+# Text: the 'text' part type, in the Hershey single-stroke fonts csgrs carries,
+# and the 'truetype' part type, in a font file -- here downloaded from the
+# Google Fonts repository and checked against its SHA-256.
+desc: Labels in Hershey single-stroke fonts, and lettering in a TrueType font.
+
+parts:
+  label:
+    type: //pub/feature/cad/csgrs:text
+    desc: '"PartCAD" in Futura Light, 10 mm capitals, 2 mm deep.'
+    text: PartCAD
+    font: futural
+    size: 10
+    depth: 2
+
+  script:
+    type: //pub/feature/cad/csgrs:text
+    desc: '"csgrs" in Hershey Script, its strokes 1.2 mm wide, centred on X = 0.'
+    text: csgrs
+    font: scripts
+    size: 12
+    stroke: 1.2
+    halign: center
+    depth: 1.5
+
+  gothic:
+    type: //pub/feature/cad/csgrs:text
+    desc: '"Exact" in Hershey Gothic English.'
+    text: Exact
+    font: gothiceng
+    size: 12
+    depth: 2
+
+  lettering:
+    type: //pub/feature/cad/csgrs:truetype
+    desc: '"CSG" in Bungee (SIL Open Font License), the font downloaded on first use.'
+    text: CSG
+    size: 12
+    depth: 3
+    path: Bungee-Regular.ttf
+    fileFrom: url
+    fileUrl: https://raw.githubusercontent.com/google/fonts/cc39c4c2c304bc368c9b7c311ea2bcc6013299fe/ofl/bungee/Bungee-Regular.ttf
+    fileHash: sha256:c4f5361ce120af3e6b9156d0bf379fa19cda2ea0cd18ac01fd99596c6bf66e3f
+
+  # The ready-made part, set from here.
+  sign:
+    type: alias
+    desc: The plugin's ready-made 'text' part, with its text set by a parameter.
+    source: //pub/feature/cad/csgrs:text;text=Hello

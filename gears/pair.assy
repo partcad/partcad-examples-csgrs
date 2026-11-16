@@ -1,0 +1,11 @@
+# The pinion and a 24-tooth gear of the same module, meshing. Their centres are
+# the sum of their pitch radii apart: 1.5 x (24 + 12) / 2 = 27 mm. The gear has
+# a tooth on its +X axis, which points at the pinion; the pinion, turned by half
+# a tooth (360 / 12 / 2 = 15 degrees), points a gap back at it.
+links:
+  - part: //pub/feature/cad/csgrs:spur_gear;module=1.5,teeth=24,thickness=6.0,bore=6.0
+    name: gear
+    location: [[0, 0, 0], [0, 0, 1], 0]
+  - part: pinion
+    name: pinion
+    location: [[27, 0, 0], [0, 0, 1], 15]

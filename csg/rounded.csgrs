@@ -1,0 +1,5 @@
+# Every edge of a block rounded to 3 mm: a block 6 mm smaller each way, grown by
+# a sphere of radius 3 (their Minkowski sum).
+minkowski:
+  - cuboid: [34, 24, 10]
+  - sphere: {r: 3, segments: 16, stacks: 8}

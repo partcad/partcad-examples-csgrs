@@ -1,0 +1,25 @@
+# VRML 2.0 models, from the 'vrml' part type: here two of KiCad's component
+# models (CC-BY-SA 4.0 with KiCad's library exception, from the archived
+# KiCad/kicad-packages3D repository), downloaded on first use and checked
+# against their SHA-256. KiCad draws them in tenths of an inch, which is what
+# 'units: 2.54' says.
+desc: KiCad component models, read from VRML.
+
+parts:
+  r0805:
+    type: //pub/feature/cad/csgrs:vrml
+    desc: An 0805 surface-mount resistor, 2.0 x 1.25 mm.
+    units: 2.54
+    path: R_0805_2012Metric.wrl
+    fileFrom: url
+    fileUrl: https://raw.githubusercontent.com/KiCad/kicad-packages3D/b8b3cfdfad88ba66f21002b3de51dc6f7d55ba5a/Resistor_SMD.3dshapes/R_0805_2012Metric.wrl
+    fileHash: sha256:8ba82403df18104f827f786ef794d9852912dc437e77b62258dc3e6ffe33c5f6
+
+  header:
+    type: //pub/feature/cad/csgrs:vrml
+    desc: A 1 x 4 pin header of 2.54 mm pitch.
+    units: 2.54
+    path: PinHeader_1x04_P2.54mm_Vertical.wrl
+    fileFrom: url
+    fileUrl: https://raw.githubusercontent.com/KiCad/kicad-packages3D/b8b3cfdfad88ba66f21002b3de51dc6f7d55ba5a/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x04_P2.54mm_Vertical.wrl
+    fileHash: sha256:3b81133ef90dcd96495f3c112fa779566c9142ebbb346d62f887bc76dfd84141

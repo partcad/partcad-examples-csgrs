@@ -1,0 +1,18 @@
+# A raster image traced and extruded, from the 'image' part type: every pixel
+# at or above the threshold is material, the rest is not.
+desc: A badge traced from a PNG, and the same picture with its dark pixels as the material.
+
+parts:
+  badge:
+    type: //pub/feature/cad/csgrs:image
+    desc: 'badge.png, white plate and dark lettering, as a 64 x 32 mm plate with the lettering and holes cut through.'
+    pixel_size: 0.2
+    depth: 2
+
+  stencil:
+    type: //pub/feature/cad/csgrs:image
+    desc: The same picture inverted -- the lettering and the holes are the material.
+    path: badge.png
+    invert: true
+    pixel_size: 0.2
+    depth: 1

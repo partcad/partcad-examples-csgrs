@@ -1,0 +1,7 @@
+# A turned spacer: an L-shaped profile in the XY plane, chamfered at its
+# shoulder, revolved about Y -- a flange and a sleeve in one piece.
+revolve:
+  angle: 360
+  segments: 48
+  profile:
+    polygon: [[4, 0], [12, 0], [12, 2.5], [8, 3.5], [7, 4.5], [7, 15], [4, 15]]

@@ -1,0 +1,59 @@
+# Gears and racks, from the 'gear' and 'rack' part types and the ready-made
+# 'spur_gear' part. All in millimetres; a module is the pitch diameter over the
+# number of teeth, so two gears of one module mesh.
+desc: Involute spur and helical gears, a cycloidal gear, a rack, and a meshing pair.
+
+parts:
+  # A part type, set by the part's own keys.
+  pinion:
+    type: //pub/feature/cad/csgrs:gear
+    desc: A 12-tooth involute spur gear of module 1.5, with a 4 mm bore.
+    module: 1.5
+    teeth: 12
+    thickness: 6
+    bore: 4
+
+  # The same type, with what it is made of declared as parameters: these can
+  # be set from outside ('wheel;teeth=36'), which keys of its own cannot.
+  wheel:
+    type: //pub/feature/cad/csgrs:gear
+    desc: An involute spur gear whose tooth count and bore are parameters.
+    module: 1.5
+    thickness: 6
+    parameters:
+      teeth:
+        type: int
+        default: 24
+      bore:
+        type: float
+        default: 6.0
+
+  helical:
+    type: //pub/feature/cad/csgrs:gear
+    desc: A 24-tooth helical gear, its teeth at 20 degrees to its axis.
+    module: 1.5
+    teeth: 24
+    thickness: 10
+    helix_angle: 20
+    bore: 6
+
+  cycloidal:
+    type: //pub/feature/cad/csgrs:gear
+    desc: A 32-tooth cycloidal gear, the tooth form of clocks and of some speed reducers.
+    profile: cycloidal
+    module: 1
+    teeth: 32
+    thickness: 4
+    bore: 3
+
+  rack:
+    type: //pub/feature/cad/csgrs:rack
+    desc: A 12-tooth involute rack that meshes with the pinion.
+    module: 1.5
+    teeth: 12
+    thickness: 6
+
+assemblies:
+  pair:
+    type: assy
+    desc: The pinion meshing with a 24-tooth gear -- the plugin's ready-made 'spur_gear', set by its parameters.

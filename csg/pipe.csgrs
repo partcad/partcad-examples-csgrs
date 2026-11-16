@@ -1,0 +1,7 @@
+# A pipe: a ring profile swept along a path with two right-angle bends.
+sweep:
+  path: [[0, 0, 0], [0, 0, 25], [30, 0, 25], [30, 30, 25]]
+  profile:
+    difference:
+      - circle: {r: 5, segments: 24}
+      - circle: {r: 3.5, segments: 24}

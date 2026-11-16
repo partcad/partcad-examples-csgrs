@@ -1,0 +1,54 @@
+# Builds every example here with PartCAD's development branch -- the PartCAD
+# the index's 'devel' is read by -- and the csgrs plugin's main branch, and runs
+# the PCB check. On Ubuntu, which has a Docker daemon, so the examples that run
+# in the plugin's image ('container') are built too rather than skipped.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      partcad:
+        description: "The PartCAD to test with, as a pip requirement"
+        default: "partcad @ git+https://github.com/partcad/partcad.git@devel"
+  # Nothing in this repository has to change for the result to: PartCAD and
+  # the plugin both move on their own. Once a week finds out.
+  schedule:
+    - cron: "17 5 * * 2"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PARTCAD: ${{ inputs.partcad || 'partcad @ git+https://github.com/partcad/partcad.git@devel' }}
+
+jobs:
+  examples:
+    name: "Every example, through PartCAD"
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      # The sandbox that runs on this machine for everything but the
+      # 'container' examples, which run in the plugin's image whatever this
+      # says. Docker is still here for them.
+      PC_PYTHON_SANDBOX: venv
+      # A cold build of a lattice can take longer than the client's default
+      # wait for an answer; nothing here is interactive.
+      PC_DAEMON_IDLE_TIMEOUT: "0"
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest pyyaml "${PARTCAD}"
+      - name: Docker is here
+        run: docker info --format '{{.ServerVersion}}'
+      - run: python -m pytest -rs -v
