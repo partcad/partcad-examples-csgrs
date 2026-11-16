@@ -79,15 +79,15 @@ def _measured(ctx, kind, path):
     """How big the object is, built: '{"bbox": [x0, y0, z0, x1, y1, z1], "volume": ...}'.
 
     A part or a sketch measures itself as it is built. An assembly records no
-    measurements of its own, so it is built and measured here.
+    measurements of its own: its box is its children's boxes where it puts them.
     """
     shape = _get(ctx, kind, path)
     assert shape is not None, "%s %s is not declared" % (kind, path)
     if kind == "assembly":
-        built = _build123d(ctx, shape)
-        assert built is not None, shape.errors
-        box = built.bounding_box(optimal=True)
-        return {"bbox": [box.min.X, box.min.Y, box.min.Z, box.max.X, box.max.Y, box.max.Z], "volume": built.volume}
+        assert asyncio.run(shape.get_wrapped(ctx)) is not None, shape.errors
+        box = asyncio.run(shape.get_bounding_box_async(ctx))
+        assert box, shape.errors
+        return {"bbox": list(box)}
     measured = asyncio.run(shape.get_measurements_async(ctx))
     assert measured is not None and measured.get("bbox"), shape.errors
     return measured
@@ -112,11 +112,12 @@ def test_every_example_builds(ctx, package, kind, name):
     measured = _measured(ctx, kind, "//%s:%s" % (package, name))
     lo, hi = measured["bbox"][:3], measured["bbox"][3:]
     assert all(b > a for a, b in zip(lo[:2], hi[:2])), measured["bbox"]
-    if kind != "sketch" and (package, name) != ("models", "header"):
+    if kind == "part" and (package, name) != ("models", "header"):
         assert measured["volume"] > 0
 
 
 def _build123d(ctx, shape):
+    """The shape as a live build123d object, which only a caller with build123d can have."""
     return asyncio.run(shape.convert("build123d", ctx))
 
 
@@ -130,20 +131,20 @@ GEAR = "//pub/feature/cad/csgrs:spur_gear;module=1.5,teeth=24,thickness=6.0,bore
 
 
 def test_the_gears_mesh(ctx):
-    from build123d import Pos, Rot
+    b3d = pytest.importorskip("build123d", reason="the gears are put together here with build123d")
 
     gear = _build123d(ctx, ctx.get_part(GEAR))
     pinion = _build123d(ctx, ctx.get_part("//gears:pinion"))
     # Where 'pair.assy' puts the pinion: 27 mm along X, turned half a tooth.
     # There its teeth sit in the gear's gaps and the two overlap nowhere; not
     # turned, a tooth of each would be in the same place.
-    assert _overlap(gear, Pos(27, 0, 0) * Rot(0, 0, 15) * pinion) < 0.01
-    assert _overlap(gear, Pos(27, 0, 0) * pinion) > 1
+    assert _overlap(gear, b3d.Pos(27, 0, 0) * b3d.Rot(0, 0, 15) * pinion) < 0.01
+    assert _overlap(gear, b3d.Pos(27, 0, 0) * pinion) > 1
     # And the assembly is that: the gear's tips on a 39 mm circle about the
     # origin, the pinion's on a 21 mm one about (27, 0, 0), none along +X.
-    bbox = _measured(ctx, "assembly", "//gears:pair")["bbox"]
-    assert bbox[0] == pytest.approx(-19.5, abs=1e-6)
-    assert 27 + 10.5 * math.cos(math.radians(15)) < bbox[3] < 27 + 10.5
+    pair = _build123d(ctx, ctx.get_assembly("//gears:pair")).bounding_box(optimal=True)
+    assert pair.min.X == pytest.approx(-19.5, abs=1e-6)
+    assert 27 + 10.5 * math.cos(math.radians(15)) < pair.max.X < 27 + 10.5
 
 
 def test_a_parameter_sets_the_example(ctx):

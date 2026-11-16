@@ -48,7 +48,9 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
-      - run: python -m pip install pytest pyyaml "${PARTCAD}"
+      # build123d for the one test that puts parts together itself: PartCAD
+      # builds everything in its sandboxes, and installs no CAD library here.
+      - run: python -m pip install pytest pyyaml build123d "${PARTCAD}"
       - name: Docker is here
         run: docker info --format '{{.ServerVersion}}'
       - run: python -m pytest -rs -v
